@@ -19,18 +19,18 @@ _Não esquecer de fazer os exports sempre que abrir um terminal novo._
 ## Configuração da Kernel
 Baixe o source code da kernel usando git:
 
-```
-$ mkdir -p ~/workdir
-$ cd ~/workdir
-$ git clone -b (branch) git://git.toradex.com/linux-toradex.git
+```bash
+mkdir -p ~/workdir
+cd ~/workdir
+git clone -b (branch) git://git.toradex.com/linux-toradex.git
 ```
 
 Substitua o (branch) pelo kernel Git Branch exata da placa que esta usando, no link [tutorial] é possivel encontrar a correta para sua placa.
 
 ### Setando a configuração da kernel padrão
-```
-$ cd ~/workdir/linux-toradex
-$ make (defconfig)
+```bash
+cd ~/workdir/linux-toradex
+make (defconfig)
 ```
 Substitua o (defconfig) pela kernel Configuration da placa que esta usando tambem encontrada no [tutorial].
 
@@ -44,7 +44,7 @@ Abra o arquivo mxc_lcdif.c no editor de texto da sua escolha em /linux-toradex/d
 
 Na struct fb_videomode adicione um modo com as especificações do seu display seguindo esta estrutura:
 
-```
+```c
 struct fb_videomode {
 const char *name;
 u32 refresh; /* optional */
@@ -74,9 +74,9 @@ Estarei utilizando como exemplo para a compilação a placa Apalis IMX6. No [tut
 
 Para compilar a kernel e o device tree:
 
-```
-$ make -j$(nproc) zImage LOADADDR=10008000 2>&1 | tee build.log
-$ make DTC_FLAGS="-@" (device-tree).dtb
+```bash
+make -j$(nproc) zImage LOADADDR=10008000 2>&1 | tee build.log
+make DTC_FLAGS="-@" (device-tree).dtb
 ```
 
 Substitua o (device-tree) pela da placa que esta usando, no link [tutorial] é possivel encontrar a correta para sua placa.
@@ -90,11 +90,11 @@ Com a imagem do kernel compilada recomendo que pegue a zImage, copie e mova para
 As device tree overlays permitem modificar a device tree sem recompilar elas por inteiro.
 
 Primeiramente baixe o codigo fonte da DTO com o git:
-```
-$ cd ~/workdir
-$ git clone -b (branch) git://git.toradex.com/device-tree-overlays.git
-$ cd device-tree-overlays/
-$ cd overlays/
+```bash
+cd ~/workdir
+git clone -b (branch) git://git.toradex.com/device-tree-overlays.git
+cd device-tree-overlays/
+cd overlays/
 ```
 Substitua o (branch) pelo Device Tree Overlay Git Branch exata da placa que esta usando, no link [tutorial] é possivel encontrar a correta para sua placa no final da pagina.
 
@@ -111,9 +111,9 @@ Troque o mode_str pelo nome da estrutura que você colocou no mxc, por exemplo "
 ### Compilando a DTO
 
 Ainda na pasta ovelays set o path para a linux kernel utilizada:
-```
-$ export STAGING_KERNEL_DIR=/home/user/workdir/linux-toradex
-$ make
+```bash
+export STAGING_KERNEL_DIR=/home/user/workdir/linux-toradex
+make
 ```
 Com a overlay que vc modificou compilada para um arquivo .dtbo recomendo copiar e mover para a mesma pasta da zImage.
 
